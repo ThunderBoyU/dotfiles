@@ -1,0 +1,7 @@
+#!/bin/sh
+
+killall xwinwrap > /dev/null 2>&1
+
+xwinwrap -g 1920x1080+1920+768 -ni -argb -s -b -nf -ov -d -- mpv --loop --mute=no -wid WID ~/Videos/LiveWallpapers/zerotwodance.mp4
+xwinwrap -g 1920x1080+0+768 -ni -argb -s -b -nf -ov -d -- mpv --loop --mute=yes -wid WID ~/Videos/LiveWallpapers/zerotwodance.mp4
+xwinwrap -g 1360x768+1920+0 -ni -argb -s -b -nf -ov -d -- mpv --loop --mute=yes -wid WID ~/Videos/LiveWallpapers/zerotwodance.mp4

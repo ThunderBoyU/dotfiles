@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Pick wallpaper using sxiv
+
+bspc rule -a '*' -o state=floating
+setwallpaper "$(sxiv -tbor ~/Pictures/walls/$1 | xargs)"

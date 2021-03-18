@@ -1,0 +1,6 @@
+#!/bin/sh
+#Az : Set a video as wallpaper and send the wallpaper link to ressources/awall for startup
+killall xwinwrap > /dev/null 2>&1 
+xwinwrap -g 1920x1080+1920+768 -ni -argb -s -b -nf -ov -d -- mpv --loop --vo=gpu --hwdec=nvdec --no-audio -wid WID "$1" > /dev/null 2>&1 & 
+#echo $(readlink -f $1) > ~/scripts/ressources/awall
+

@@ -1,0 +1,44 @@
+#!/bin/sh
+
+# set PATH so it includes user's private ~/.local/bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache" 
+
+# Monitor layout
+displays &
+
+# Xresources
+xrdb -load "$XDG_CONFIG_HOME"/x11/xresources
+
+# Wallpaper
+setwallpaper &
+
+# Compositor
+xcompmgr &
+
+# Change capslock mapping
+setxkbmap -option caps:super
+
+# Music player daemon
+mpd &
+
+# Statusbar
+dwmblocks &
+
+# Unclutter
+unclutter &
+
+# Mailsync because i can't make cron work wtf
+automail &
+
+# Notifications
+dunst &
+
+# Correct cursor image on desktop
+xsetroot -cursor_name left_ptr &
+

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+pgrep polybar && killall polybar
+polybar top &
+polybar bottom &

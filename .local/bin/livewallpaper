@@ -1,0 +1,28 @@
+#!/bin/sh
+#Az : Set a video as wallpaper and send the wallpaper link to ressources/awall for startup
+
+killvideowall > /dev/null 2>&1
+
+case $(echo -e "All\nPrimary\nSecondary\nTV" | dmenu) in
+	All)
+		killvideowall &
+		xwinwrap -g 1920x1080+1920+768 -ni -argb -s -b -nf -ov -d -- mpv --loop --vo=gpu --hwdec=nvdec --no-audio -wid WID "$1" &
+		xwinwrap -g 1920x1080+0+768 -ni -argb -s -b -nf -ov -d -- mpv --loop --vo=gpu --hwdec=nvdec --no-audio -wid WID "$1" &
+		xwinwrap -g 1360x768+1920+0 -ni -argb -s -b -nf -ov -d -- mpv --loop --vo=gpu --hwdec=nvdec --no-audio -wid WID "$1" &
+		;;
+	Primary)
+		killvideowall &
+		xwinwrap -g 1920x1080+1920+768 -ni -argb -s -b -nf -ov -d -- mpv --loop --vo=gpu --hwdec=nvdec --no-audio -wid WID "$1" &
+		;;
+	Secondary)
+		killvideowall &
+		xwinwrap -g 1920x1080+0+768 -ni -argb -s -b -nf -ov -d -- mpv --loop --vo=gpu --hwdec=nvdec --no-audio -wid WID "$1" &
+		;;
+	TV)
+		killvideowall &
+		xwinwrap -g 1360x768+1920+0 -ni -argb -s -b -nf -ov -d -- mpv --loop --vo=gpu --hwdec=nvdec --no-audio -wid WID "$1" &
+		;;
+	*)
+	exit 1 ;;
+esac
+

@@ -1,0 +1,39 @@
+#!/bin/sh
+
+WALLPAPER_DIR="$HOME/pix/walls/"
+VIDEO_DIR="$HOME/vids/walls/"
+CACHE_DIR="$HOME/.cache/wallpaper/"
+TMP_DIR="/tmp/wallpaper/"
+
+# Set directories the script will use.
+# TRAILING SLASHES ARE IMPORTANT!!!
+
+SXIVINPUT=""
+
+[ -d "$CACHE_DIR" ] || mkdir $CACHE_DIR
+[ -d "$TMP_DIR" ] || mkdir $TMP_DIR
+
+case $(echo -e "Image\nVideo" | dmenu) in
+	Image)
+	
+		bspc rule -a '*' -o state=floating
+		setwallpaper "$(sxiv -tbor $WALLPAPER_DIR$1 | xargs)"
+		;;
+	Video)
+		for file in $VIDEO_DIR*; do
+			OUT="$CACHE_DIR${file: ${#VIDEO_DIR}:-4}.gif"
+			[ -f $OUT ] || $(ffmpegthumbnailer -i ${file} -o ${TMP_DIR}${file}.png
+			 ffmpeg -i ${file} -r 15 -ss 1 -t 3 -vf scale="720:-1" -threads 8 -f image2pipe -vcodec ppm - | convert -delay 6 - $OUT)
+			SXIVINPUT="$SXIVINPUT ${OUT}"
+		done
+		
+		bspc rule -a '*' -o state=floating
+		selected=$(sxiv -tboa -s f -N "Live Wallpaper" ${SXIVINPUT})
+
+		[ $selected != "" ] && setwallpaper $VIDEO_DIR${selected: ${#CACHE_DIR}:-4}.mp4
+
+
+	;;
+	*)
+	exit 1 ;;
+esac

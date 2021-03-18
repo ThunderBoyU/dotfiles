@@ -1,0 +1,10 @@
+#!/bin/sh
+#Az : Corona cases counter for polybar
+
+curl -s https://corona-stats.online/fi > ~/.cache/coronacurl
+
+out=$(grep "Finland" ~/.cache/coronacurl | sed "s/\s*//g ; s/║//g ; s/│/;/g ; s/▲//g ; s/\x1B\[[0-9;]\{1,\}[A-Za-z]//g" | awk -F';' '{print $8" (" $4")"}')
+[ "$out" != "" ] && echo "%{u#2EFE2E}%{+u} %{F#555}%{T2}ﮊ %{T-}%{F-}$out %{-u}"
+
+
+

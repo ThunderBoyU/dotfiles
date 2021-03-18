@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# This script does the following:
+#       Run by itself, set the wallpaper (at X start).
+#       If given a file, set that as the new wallpaper.
+#       If given a directory, choose random file in it.
+#       If wal is installed, also generates a colorscheme.
+
+# Location of link to wallpaper link.
+bgloc="${XDG_DATA_HOME:-$HOME/.local/share/}/bg"
+
+[ -f "$1" ] && ln -sf "$(readlink -f "$1")" "$bgloc"
+[ -d "$1" ] && ln -sf "$(find "$(readlink -f "$1")" -iregex '.*.\(jpg\|jpeg\|png\|gif\|mp4\)' -type f | shuf -n 1)" "$bgloc"
+
+command -v wal >/dev/null 2>&1 &&
+	pywalupdate "$bgloc" &
+	pywalupdate "$1" &
+
+case $(file --mime-type "$bgloc" -bL) in
+	video/*)
+		killvideowall > /dev/null 2>&1
+                xwinwrap -g 1920x1080+1920+768 -un -ni -s -b -nf -ov -d -- mpv --mute=yes --loop -wid WID "$bgloc" > /dev/null 2>&1 &
+                xwinwrap -g 1920x1080+0+768 -un -ni -s -b -nf -ov -d -- mpv --loop --mute=yes -wid WID "$bgloc" > /dev/null 2>&1 &
+                xwinwrap -g 1360x768+1920+0 -un -ni -s -b -nf -ov -d -- mpv --mute=yes --loop -wid WID "$bgloc" > /dev/null 2>&1 &
+
+                ;;
+	image/*)
+		killvideowall &
+		xwallpaper --zoom "$bgloc" &
+		;;
+esac
+

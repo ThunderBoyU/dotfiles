@@ -1,0 +1,22 @@
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.config/histfile
+HISTSIZE=1000
+SAVEHIST=1000
+bindkey -e
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '/home/thunder/.zshrc'
+
+export PATH="$PATH:/home/thunder/.local/bin/"
+export PS1="%m%# %~ %" 
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+
+alias z="clear && neofetch"
+alias cl="clear"
+
+clear && neofetch
+
+eval $(thefuck --alias)

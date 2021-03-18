@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+dlloc="$HOME/mus/ytdownloader"
+
+if [[ -z "$2" ]]; then
+  printf "Search query: "; 
+  query=$( echo | dmenu -p "Search YT Video:" )
+else
+	query="$2"
+fi
+
+query="${query// /+}"
+echo "$query"
+
+# YT_API_KEY
+YT_API_KEY="AIzaSyCBCIubnu5D-CP_0MgNvtYbc1LcVu0YZbQ"
+urlstring="https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&maxResults=20&key=${YT_API_KEY}"
+
+youtube-dl -o "$dlloc/%(title)s.%(ext)s" "https://$( curl -s "${urlstring}" \
+	| jq -r '.items[] | "\(.snippet.channelTitle) => \(.snippet.title) => youtu.be/\(.id.videoId)"' \
+	| dmenu -i -p 'Select Video -' -l 20 \
+	| awk '{print $NF}' \
+)"
+
+for i in "$dlloc"/"*";
+  do name=`echo "$i" | cut -d'.' -f1`
+  echo "$name"
+  ffmpeg -i "$i" "${name}."$1""
+done
+

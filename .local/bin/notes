@@ -1,0 +1,3 @@
+#!/bin/sh
+
+ls ~/.local/share/notes && st -c float -g 150x50 -e nvim ~/.local/share/notes

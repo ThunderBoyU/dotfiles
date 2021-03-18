@@ -1,0 +1,5 @@
+#!/bin/sh
+# Runs multilockscreen with correct arguments.
+# This exists to make locking the screen with rofi easy.
+
+multilockscreen -l blur

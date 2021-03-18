@@ -1,0 +1,3 @@
+#!/bin/sh
+
+xwinwrap -g 1920x1080+1920+768 -ni -argb -s -b -nf -ov -d -- mpv --hwdec=vdpau --vo=vdpau --loop --mute=yes -wid WID ~/Videos/wallpapers/$1

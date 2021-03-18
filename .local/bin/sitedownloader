@@ -1,0 +1,4 @@
+#!/bin/sh
+# Download whole website for archival purposes
+
+wget -rm -l inf -P ~/dox/websites/archive/ "$1"

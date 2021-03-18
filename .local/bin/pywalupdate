@@ -1,0 +1,8 @@
+#!/bin/sh
+
+rm -rf ~/.cache/wal/ > /dev/null 2>&1
+env TMPDIR=/home/thunder/.cache/tmpdir wal -i "$1"
+pywalfox update > /dev/null 2>&1
+razer-cli -a > /dev/null 2>&1
+wal -i "$1"
+rm /tmp/magick*

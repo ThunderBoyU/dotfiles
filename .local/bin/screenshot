@@ -1,0 +1,3 @@
+#!/bin/sh
+
+maim --geometry=1920x1080+1920+768 -B ~/pix/shots/$(date +%s).png
